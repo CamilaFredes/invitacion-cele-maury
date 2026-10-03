@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="color-scheme" content="light only">
+  <title>Cele & Maury</title>
+
+  <!-- Fonts: Cookie (display/nombres) + Open Sans (cuerpo) + Libre Baskerville (cursiva) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Open+Sans:wght@300;400;600;700&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       TOKENS �?" diseño mobile-first, columna única
+       Paleta: beiges cálidos + verde pizarra + dorado
+    ===================================================== */
+    :root {
+      --c-bg:          #FAF7F3;
+      --c-bg-2:        #EFEDE7;
+      --c-green-deep:  #4A6360;
+      --c-green-mid:   #81948B;
+      --c-green-light: #C6D7CF;
+      --c-gold:        #BFA880;
+      --c-text:        #2E3A38;
+      --c-text-light:  #6B7C79;
+      --c-white:       #FFFFFF;
+      --c-portada-end: #2E3E3C;
+
+      --f-display: 'Cookie', cursive;
+      --f-body:    'Open Sans', sans-serif;
+      --f-serif:   'Libre Baskerville', serif;
+
+      --radius-card: 16px;
+      --t: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Reset */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--c-bg);
+      color: var(--c-text);
+      font-family: var(--f-body);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; transition: var(--t); }
+    ul { list-style: none; padding: 0; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--c-bg-2); }
+    ::-webkit-scrollbar-thumb { background: var(--c-green-mid); border-radius: 3px; }
+
+    /* =====================================================
+       MODAL BIENVENIDA
+    ===================================================== */
+    .modal-welcome {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(46, 62, 60, 0.97);
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+    .modal-welcome.oculto {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .modal-card {
+      background: var(--c-white);
+      border-radius: 22px;
+      padding: 44px 32px 40px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+    }
+    .modal-card__ornamento {
+      margin-bottom: 18px;
+    }
+    .modal-card__pre {
+      font-family: var(--f-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-text-light);
+      margin-bottom: 4px;
+    }
+    .modal-card__nombres {
+      font-family: var(--f-display);
+      font-size: 60px;
+      line-height: 1;
+      color: var(--c-green-deep);
+      margin-bottom: 14px;
+    }
+    .modal-card__nota {
+      font-size: 14px;
+      color: var(--c-text-light);
+      line-height: 1.55;
+      margin-bottom: 32px;
+    }
+    .modal-card__acciones {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    /* Botones */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-family: var(--f-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 26px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: var(--t);
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--c-green-deep);
+      color: var(--c-white);
+      box-shadow: 0 4px 18px rgba(74,99,96,0.32);
+    }
+    .btn-primary:hover { background: #3a5250; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--c-green-mid);
+      border: 1.5px solid var(--c-green-light);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+    }
+    .btn-outline:hover { background: var(--c-bg-2); color: var(--c-green-deep); }
+    .btn-gold {
+      background: var(--c-gold);
+      color: var(--c-white);
+      box-shadow: 0 4px 14px rgba(191,168,128,0.35);
+    }
+    .btn-gold:hover { background: #a89268; transform: translateY(-2px); }
+    .btn-white {
+      background: var(--c-white);
+      color: var(--c-green-deep);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+    }
+    .btn-white:hover { background: var(--c-bg-2); }
+    .btn-sm { font-size: 11px; padding: 10px 18px; }
+
+    /* =====================================================
+       PORTADA
+    ===================================================== */
+    .portada {
+      position: relative;
+      width: 100%;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+    }
+    .portada__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('Portada.JPG');
+      background-size: cover;
+      background-position: center 30%;
+      transform: scale(1.06);
+      transition: transform 9s ease;
+    }
+    .portada__bg.cargada { transform: scale(1); }
+    .portada__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(46,62,60,0.28) 0%,
+        rgba(46,62,60,0.22) 55%,
+        rgba(46,62,60,0.72) 100%
+      );
+    }
+    .portada__contenido {
+      position: relative;
+      z-index: 2;
+      /* Antes padding: 48px 24px 120px; */
+      padding: 300px 24px 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .portada__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.78);
+    }
+    .portada__fecha {
+      font-family: var(--f-body);
+      font-size: 20px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: 0.22em;
+    }
+    .portada__linea {
+      width: 50px;
+      height: 1px;
+      background: rgba(255,255,255,0.45);
+    }
+    .portada__nombres {
+      font-family: var(--f-display);
+      font-size: clamp(76px, 19vw, 100px);
+      line-height: 0.88;
+      color: var(--c-white);
+      text-shadow: 0 2px 32px rgba(0,0,0,0.22);
+      text-wrap: balance;
+    }
+    .portada__frase {
+      font-family: var(--f-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: rgba(255,255,255,0.87);
+      max-width: 280px;
+      line-height: 1.5;
+      text-wrap: balance;
+    }
+
+    /* Indicador de scroll */
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .scroll-hint__txt {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+    .scroll-hint__circulo {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid rgba(255,255,255,0.42);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: bajar 2.2s ease-in-out infinite;
+    }
+    @keyframes bajar {
+      0%, 100% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(7px); opacity: 1; }
+    }
+
+    /* =====================================================
+       DIVISORES WAVE
+    ===================================================== */
+    .wave {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      margin-top: -1px;
+    }
+    .wave svg { display: block; width: 100%; }
+
+    /* =====================================================
+       COMMONS SECCIONES
+    ===================================================== */
+    .seccion {
+      padding: 72px 20px;
+      position: relative;
+    }
+    .seccion--alt { background: var(--c-bg-2); }
+    .seccion__header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .seccion__eyebrow {
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      margin-bottom: 8px;
+    }
+    .seccion__titulo {
+      font-family: var(--f-display);
+      font-size: clamp(46px, 11vw, 58px);
+      color: var(--c-green-deep);
+      line-height: 1;
+      text-wrap: balance;
+    }
+    .seccion__subtitulo {
+      font-size: 14px;
+      color: var(--c-text-light);
+      margin-top: 10px;
+      line-height: 1.55;
+    }
+
+    /* Ornamento botánico SVG */
+    .ornamento {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    /* =====================================================
+       CUENTA REGRESIVA
+    ===================================================== */
+    .countdown {
+      background: var(--c-bg);
+      padding: 60px 20px 72px;
+      text-align: center;
+    }
+    .countdown__numeros {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: clamp(10px, 3.5vw, 28px);
+      margin: 32px 0 20px;
+      flex-wrap: nowrap;
+    }
+    .countdown__unidad {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+    }
+    .countdown__num {
+      font-family: var(--f-display);
+      font-size: clamp(54px, 13.5vw, 80px);
+      line-height: 1;
+      color: var(--c-green-deep);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .countdown__etiqueta {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-text-light);
+    }
+    .countdown__sep {
+      font-family: var(--f-display);
+      font-size: clamp(38px, 9vw, 60px);
+      color: var(--c-green-light);
+      line-height: 1.05;
+      padding-top: 6px;
+      flex-shrink: 0;
+    }
+    .btn-calendar {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 16px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--c-green-mid);
+      background: transparent;
+      border: 1.5px solid var(--c-green-light);
+      padding: 10px 22px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--t);
+    }
+    .btn-calendar:hover { background: var(--c-green-light); color: var(--c-green-deep); }
+
+    /* =====================================================
+       EVENTOS
+    ===================================================== */
+    .eventos {
+      background: var(--c-bg-2);
+      padding: 12px 20px;
+    }
+    .eventos__grilla {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .evento-card {
+      background: var(--c-white);
+      border-radius: var(--radius-card);
+      padding: 26px 24px;
+      box-shadow: 0 2px 20px rgba(74,99,96,0.07);
+      position: relative;
+      overflow: hidden;
+    }
+    .evento-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+    }
+    .evento-card--civil::before    { background: var(--c-green-mid); }
+    .evento-card--ceremonia::before { background: var(--c-gold); }
+    .evento-card--fiesta::before   { background: var(--c-green-deep); }
+
+    .evento-card__tipo {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      margin-bottom: 4px;
+    }
+    .evento-card__nombre {
+      font-family: var(--f-display);
+      font-size: 40px;
+      line-height: 1;
+      color: var(--c-green-deep);
+      margin-bottom: 18px;
+    }
+    .evento-card__dato {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 9px;
+      font-size: 14px;
+      color: var(--c-text);
+    }
+    .evento-card__dato svg {
+      width: 15px; height: 15px;
+      stroke: var(--c-green-mid);
+      fill: none;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .evento-card__dato strong { font-weight: 600; }
+    .evento-card__pie {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .evento-card__extra {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--c-bg-2);
+    }
+    .evento-card__extra-texto {
+      font-size: 13px;
+      color: var(--c-text-light);
+      font-style: italic;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    /* =====================================================
+       CONFIRMAR ASISTENCIA
+    ===================================================== */
+    .rsvp {
+      background: var(--c-green-deep);
+      padding: 72px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .rsvp::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(198,215,207,0.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .rsvp__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .rsvp__eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--c-green-light);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .rsvp__titulo {
+      font-family: var(--f-display);
+      font-size: clamp(46px, 11vw, 58px);
+      color: var(--c-white);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .rsvp__nota {
+      font-size: 15px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* =====================================================
+       GALERÍA
+    ===================================================== */
+    .galeria {
+      background: var(--c-bg);
+      padding: 72px 0 80px;
+    }
+    .galeria__encabezado {
+      text-align: center;
+      padding: 0 20px 40px;
+    }
+    .galeria__verso {
+      font-family: var(--f-serif);
+      font-style: italic;
+      font-size: 20px;
+      color: var(--c-green-deep);
+      line-height: 1.45;
+      margin-bottom: 6px;
+      text-wrap: balance;
+    }
+    .galeria__referencia {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    /* Marco de fotos */
+    .galeria__marco {
+      margin: 0 20px;
+      border: 1px solid var(--c-green-light);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 6px 36px rgba(74,99,96,0.10);
+    }
+
+    /* Carrusel */
+    .carrusel {
+      position: relative;
+      background: var(--c-bg-2);
+      overflow: hidden;
+    }
+    .carrusel__pista {
+      display: flex;
+      transition: transform 0.62s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .carrusel__slide {
+      min-width: 100%;
+    }
+    .carrusel__slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .carrusel__btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      background: rgba(255,255,255,0.82);
+      border: none;
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.15);
+      transition: var(--t);
+      backdrop-filter: blur(4px);
+    }
+    .carrusel__btn:hover { background: var(--c-white); transform: translateY(-50%) scale(1.06); }
+    .carrusel__btn--ant { left: 10px; }
+    .carrusel__btn--sig { right: 10px; }
+    .carrusel__btn svg { width: 16px; height: 16px; stroke: var(--c-green-deep); fill: none; }
+    .carrusel__puntos {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      padding: 14px 0 12px;
+      background: var(--c-white);
+    }
+    .carrusel__punto {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--c-green-light);
+      border: none;
+      cursor: pointer;
+      transition: var(--t);
+      padding: 0;
+    }
+    .carrusel__punto.activo {
+      background: var(--c-green-deep);
+      transform: scale(1.35);
+    }
+
+    /* =====================================================
+       COLABORACI�"N
+    ===================================================== */
+    .colaboracion {
+      background: var(--c-bg-2);
+      padding: 72px 20px;
+      text-align: center;
+    }
+    .colab-card {
+      max-width: 420px;
+      margin: 0 auto;
+      background: var(--c-white);
+      border-radius: 20px;
+      padding: 36px 28px;
+      box-shadow: 0 4px 28px rgba(74,99,96,0.09);
+    }
+    .colab-card__icono { font-size: 38px; margin-bottom: 12px; }
+    .colab-card__titulo {
+      font-family: var(--f-display);
+      font-size: 44px;
+      color: var(--c-green-deep);
+      line-height: 1;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .colab-card__nota {
+      font-size: 14px;
+      color: var(--c-text-light);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .colab-datos {
+      background: var(--c-bg);
+      border-radius: 12px;
+      padding: 4px 18px 8px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .colab-fila {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--c-bg-2);
+      gap: 12px;
+      min-height: 42px;
+    }
+    .colab-fila:last-child { border-bottom: none; }
+    .colab-fila__label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-text-light);
+      flex-shrink: 0;
+    }
+    .colab-fila__valor {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-text);
+      text-align: right;
+      word-break: break-all;
+    }
+    .colab-alias-fila {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex: 1;
+    }
+    .colab-alias {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--c-green-deep);
+      letter-spacing: 0.04em;
+    }
+    .btn-copiar {
+      background: var(--c-bg-2);
+      border: 1.5px solid var(--c-green-light);
+      color: var(--c-green-deep);
+      font-family: var(--f-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 13px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: var(--t);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .btn-copiar:hover { background: var(--c-green-light); }
+    .btn-copiar.copiado { background: var(--c-green-deep); color: var(--c-white); border-color: var(--c-green-deep); }
+    .colab-card__gracias {
+      font-size: 12px;
+      color: var(--c-text-light);
+      text-align: center;
+    }
+
+    /* =====================================================
+       CIERRE
+    ===================================================== */
+    .cierre {
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+    }
+    .cierre__bg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .cierre__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(250,247,243,0.08) 0%,
+        rgba(74,99,96,0.60) 45%,
+        rgba(30,45,42,0.80) 100%
+      );
+    }
+    .cierre__contenido {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: calc(100% - 48px);
+      max-width: 360px;
+    }
+    .cierre__titulo {
+      font-family: var(--f-display);
+      font-size: clamp(40px, 10.5vw, 56px);
+      color: var(--c-white);
+      line-height: 1.08;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.28);
+      text-wrap: balance;
+    }
+    .cierre__subtitulo {
+      font-size: 15px;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    /* =====================================================
+       M�sSICA FLOTANTE
+    ===================================================== */
+    .musica-flotante {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+      right: 22px;
+      z-index: 8000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .musica-etiqueta {
+      background: rgba(46,62,60,0.90);
+      color: var(--c-white);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      padding: 5px 11px;
+      border-radius: 20px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(6px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      backdrop-filter: blur(4px);
+    }
+    .musica-flotante:hover .musica-etiqueta,
+    .musica-flotante.mostrar-label .musica-etiqueta { opacity: 1; transform: translateX(0); }
+    .musica-btn {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      background: var(--c-green-deep);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 22px rgba(74,99,96,0.42);
+      transition: var(--t);
+    }
+    .musica-btn:hover { transform: scale(1.08); background: #3a5250; }
+    .musica-btn svg { width: 22px; height: 22px; fill: var(--c-white); }
+
+    /* =====================================================
+       PIE DE PÁGINA
+    ===================================================== */
+    .pie {
+      background: var(--c-green-deep);
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .pie__nombres {
+      font-family: var(--f-display);
+      font-size: 32px;
+      color: var(--c-green-light);
+      margin-bottom: 4px;
+    }
+    .pie__fecha {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* =====================================================
+       ANIMACI�"N FADE-IN AL HACER SCROLL
+    ===================================================== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Faux-thin en Cookie (font solo tiene weight 400; 300 activa síntesis delgada del navegador) */
+    .modal-card__nombres,
+    .portada__nombres,
+    .seccion__titulo,
+    .countdown__num,
+    .countdown__sep,
+    .evento-card__nombre,
+    .rsvp__titulo,
+    .colab-card__titulo,
+    .cierre__titulo,
+    .pie__nombres {
+      font-weight: 300;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { opacity: 1; transform: none; transition: none; }
+      .portada__bg { transform: scale(1); }
+      @keyframes bajar { 0%, 100%, 50% { transform: translateY(0); opacity: 0.6; } }
+    }
+
+    /* =====================================================
+       RESPONSIVE �?" tablet/escritorio (�?� 640px)
+    ===================================================== */
+    @media (min-width: 640px) {
+      .eventos__grilla {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .evento-card { flex: 1 1 240px; max-width: 280px; }
+      /* carrusel sin aspect-ratio fijo: la imagen determina la altura */
+      .galeria__marco { margin: 0 40px; }
+      /* cierre: la imagen determina la altura */
+    }
+    @media (min-width: 900px) {
+      .evento-card { max-width: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- AUDIO -->
+<audio id="audioFondo" loop preload="none">
+  <source src="../Volví a nacer - canción invitación.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ========================
+     M�sSICA FLOTANTE
+======================== -->
+<div class="musica-flotante" id="musicaFlotante" hidden>
+  <span class="musica-etiqueta" id="musicaEtiqueta">Música</span>
+  <button class="musica-btn" id="musicaBtn" aria-label="Controlar música">
+    <svg id="iconoPlay"  viewBox="0 0 24 24" style="display:none"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="iconoPausa" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+  </button>
+</div>
+
+<!-- ========================
+     MODAL BIENVENIDA
+======================== -->
+<div class="modal-welcome" id="modalBienvenida" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <p class="modal-card__pre">Bienvenidos a la invitación de</p>
+    <h1 class="modal-card__nombres">Cele &amp; Maury</h1>
+    <p class="modal-card__nota">La música de fondo es parte de la experiencia</p>
+    <div class="modal-card__acciones">
+      <button class="btn btn-primary" id="btnConMusica">Ingresar con música</button>
+      <button class="btn btn-outline" id="btnSinMusica">Ingresar sin música</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================
+     PORTADA
+======================== -->
+<section class="portada" id="inicio">
+  <div class="portada__bg" id="portadaBg"></div>
+  <div class="portada__overlay"></div>
+
+  <div class="portada__contenido">
+    <p class="portada__fecha">12 · 12 · 2026</p>
+    <div class="portada__linea"></div>
+    <!-- Antes: <h2 class="portada__nombres">Cele<br>&amp; Maury</h2>-->
+    <h2 class="portada__nombres">Cele &amp; Maury</h2>
+    <div class="portada__linea"></div>
+    <p class="portada__frase">Nos casamos y queremos que seas parte</p>
+  </div>
+
+  <div class="scroll-hint" id="scrollHint" role="button" aria-label="Desplazá hacia abajo" tabindex="0">
+    <span class="scroll-hint__txt">Deslizá</span>
+    <div class="scroll-hint__circulo">
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="1 1 6 7 11 1"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Transición wave: portada oscura �?' countdown claro -->
+<div class="wave" style="background: var(--c-portada-end);">
+  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="70">
+    <path d="M0,35 C360,70 1080,0 1440,35 L1440,70 L0,70 Z" fill="#FAF7F3"/>
+  </svg>
+</div>
+
+<!-- ========================
+     CUENTA REGRESIVA
+======================== -->
+<section class="countdown fade-in" id="countdown">
+  <!-- Ornamento superior -->
+  <!--<div class="ornamento">
+    <svg width="200" height="52" viewBox="0 0 200 52" fill="none" stroke="#81948B" stroke-width="1.1" stroke-linecap="round">
+      <line x1="100" y1="48" x2="100" y2="8"/>
+      <path d="M100,36 C83,27 67,24 52,17 C65,15 83,22 100,36"/>
+      <path d="M100,22 C85,14 72,8 58,5 C70,9 84,14 100,22"/>
+      <path d="M100,36 C117,27 133,24 148,17 C135,15 117,22 100,36"/>
+      <path d="M100,22 C115,14 128,8 142,5 C130,9 116,14 100,22"/>
+      <circle cx="52" cy="17" r="2.2" fill="#81948B"/>
+      <circle cx="58" cy="5"  r="2.2" fill="#81948B"/>
+      <circle cx="148" cy="17" r="2.2" fill="#81948B"/>
+      <circle cx="142" cy="5"  r="2.2" fill="#81948B"/>
+    </svg>
+  </div>-->
+
+  <div class="seccion__header" style="margin-bottom: 8px;">
+    <span class="seccion__eyebrow">faltan solo</span>
+    <h2 class="seccion__titulo">unos días</h2>
+  </div>
+
+  <div class="countdown__numeros" role="timer" aria-live="polite">
+    <div class="countdown__unidad">
+      <span class="countdown__num" id="cdDias">--</span>
+      <span class="countdown__etiqueta">Días</span>
+    </div>
+    <span class="countdown__sep">:</span>
+    <div class="countdown__unidad">
+      <span class="countdown__num" id="cdHoras">--</span>
+      <span class="countdown__etiqueta">Horas</span>
+    </div>
+    <span class="countdown__sep">:</span>
+    <div class="countdown__unidad">
+      <span class="countdown__num" id="cdMins">--</span>
+      <span class="countdown__etiqueta">Min</span>
+    </div>
+    <span class="countdown__sep">:</span>
+    <div class="countdown__unidad">
+      <span class="countdown__num" id="cdSegs">--</span>
+      <span class="countdown__etiqueta">Seg</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <button class="btn-calendar" id="btnCalendario">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Agendar en calendario
+    </button>
+  </div>
+
+  <!-- Ornamento inferior -->
+  <!--<div class="ornamento" style="margin-top: 32px;">
+    <svg width="200" height="52" viewBox="0 0 200 52" fill="none" stroke="#C6D7CF" stroke-width="1" stroke-linecap="round">
+      <line x1="100" y1="48" x2="100" y2="8"/>
+      <path d="M100,36 C83,27 67,24 52,17 C65,15 83,22 100,36"/>
+      <path d="M100,22 C85,14 72,8 58,5 C70,9 84,14 100,22"/>
+      <path d="M100,36 C117,27 133,24 148,17 C135,15 117,22 100,36"/>
+      <path d="M100,22 C115,14 128,8 142,5 C130,9 116,14 100,22"/>
+      <circle cx="52" cy="17" r="1.8" fill="#C6D7CF"/>
+      <circle cx="58" cy="5"  r="1.8" fill="#C6D7CF"/>
+      <circle cx="148" cy="17" r="1.8" fill="#C6D7CF"/>
+      <circle cx="142" cy="5"  r="1.8" fill="#C6D7CF"/>
+    </svg>
+  </div>-->
+</section>
+
+<!-- Wave: countdown claro �?' eventos beige -->
+<div class="wave" style="background: var(--c-bg);">
+  <svg viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="50">
+    <path d="M0,25 C480,50 960,0 1440,25 L1440,50 L0,50 Z" fill="#EFEDE7"/>
+  </svg>
+</div>
+
+<!-- ========================
+     EVENTOS
+======================== -->
+<section class="eventos fade-in">
+  <div class="seccion__header">
+    <h2 class="seccion__eyebrow">Acompañanos en cada paso</h2>
+   <!-- <h2 class="seccion__titulo">El gran día</h2>-->
+  </div>
+
+  <div class="eventos__grilla">
+
+    <!-- Civil -->
+    <div class="evento-card evento-card--civil fade-in">
+      <!--<p class="evento-card__tipo">Civil</p>-->
+      <h3 class="evento-card__nombre">Civil</h3>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Viernes <strong>11 de diciembre de 2026</strong></span>
+      </div>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span><strong>11:30 hs</strong></span>
+      </div>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Pte. Arturo Illia, entre Feliciano y Federación</span>
+      </div>
+      <div class="evento-card__pie">
+        <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/AoZAuBZNM8qkh9EN9" target="_blank" rel="noopener">
+          Cómo llegar
+        </a>
+      </div>
+    </div>
+
+    <!-- Ceremonia -->
+    <div class="evento-card evento-card--ceremonia fade-in">
+      <!--<p class="evento-card__tipo">Ceremonia</p>-->
+      <h3 class="evento-card__nombre">Ceremonia</h3>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Sábado <strong>12 de diciembre de 2026</strong></span>
+      </div>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span><strong>19:00 hs</strong></span>
+      </div>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Iglesia Nueva Vida · Bv. Yuquerí 2362</span>
+      </div>
+      <div class="evento-card__pie">
+        <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/fbJ9yaudsCQ81FkdA" target="_blank" rel="noopener">
+          Cómo llegar
+        </a>
+      </div>
+    </div>
+
+    <!-- Fiesta -->
+    <div class="evento-card evento-card--fiesta fade-in">
+      <!--<p class="evento-card__tipo">Fiesta</p>-->
+      <h3 class="evento-card__nombre">Fiesta</h3>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Sábado <strong>12 de diciembre de 2026</strong></span>
+      </div>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span><strong>21:00 hs</strong></span>
+      </div>
+      <div class="evento-card__dato">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Calipso Eventos · Bernardo Grimberg 54</span>
+      </div>
+      <div class="evento-card__pie">
+        <a class="btn btn-outline btn-sm" href="https://maps.app.goo.gl/UjX9xyvTe5RzWXQi9" target="_blank" rel="noopener">
+          Cómo llegar
+        </a>
+      </div>
+      <div class="evento-card__extra">
+        <p class="evento-card__extra-texto">¿Qué canción no puede faltar en la playlist de la fiesta?</p>
+        <a class="btn btn-gold btn-sm" href="https://docs.google.com/forms/d/e/1FAIpQLSfuBaG25hXhddFjkDjN9GqzK-3wUyZYo781rWfAZGSpd6_-yQ/viewform?usp=publish-editor" target="_blank" rel="noopener">
+          Sugerir canción
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Wave: eventos beige �?' rsvp verde -->
+<div class="wave" style="background: var(--c-bg-2);">
+  <svg viewBox="0 0 1440 55" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="55">
+    <path d="M0,0 C360,55 1080,0 1440,55 L1440,55 L0,55 Z" fill="#4A6360"/>
+  </svg>
+</div>
+
+<!-- ========================
+     CONFIRMAR ASISTENCIA
+======================== -->
+<section class="rsvp fade-in">
+  <div class="rsvp__inner">
+    <span class="rsvp__eyebrow">¿Venís?</span>
+    <h2 class="rsvp__titulo">Confirmar Asistencia</h2>
+    <p class="rsvp__nota">
+      Para una mejor organización es importante que confirmes tu asistencia antes del 20 de noviembre
+    </p>
+    <a class="btn btn-white" href="https://docs.google.com/forms/d/e/1FAIpQLScvXsc7a2u7lLDNtklQ8LspRXPyVatjsNezOmLs5SsBWZp05g/viewform?usp=publish-editor" target="_blank" rel="noopener">
+      Confirmar asistencia
+    </a>
+  </div>
+</section>
+
+<!-- Wave: rsvp verde �?' galería claro -->
+<div class="wave" style="background: #4A6360;">
+  <svg viewBox="0 0 1440 55" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="55">
+    <path d="M0,55 C360,0 1080,55 1440,0 L1440,55 L0,55 Z" fill="#FAF7F3"/>
+  </svg>
+</div>
+
+<!-- ========================
+     GALERÍA DE FOTOS
+======================== -->
+<section class="galeria fade-in">
+  <div class="galeria__encabezado">
+    <!-- Ornamento fino de línea dorada -->
+    <div class="ornamento" style="margin-bottom: 20px;">
+      <svg width="220" height="24" viewBox="0 0 220 24" fill="none" stroke="#BFA880" stroke-width="1" stroke-linecap="round">
+        <line x1="8"   y1="12" x2="96"  y2="12"/>
+        <line x1="124" y1="12" x2="212" y2="12"/>
+        <circle cx="110" cy="12" r="4.5" fill="#BFA880"/>
+        <circle cx="96"  cy="12" r="2"   fill="#BFA880"/>
+        <circle cx="124" cy="12" r="2"   fill="#BFA880"/>
+      </svg>
+    </div>
+    <p class="galeria__verso">"Todo lo hizo hermoso en su tiempo"</p>
+    <p class="galeria__referencia">Eclesiastés 3:11</p>
+  </div>
+
+  <div class="galeria__marco">
+    <div class="carrusel" id="carrusel">
+      <div class="carrusel__pista" id="carruselPista">
+        <div class="carrusel__slide"><img src="DSCN4491.JPG"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="DSCN4510.JPG"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="DSCN4521.JPG"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="DSCN4536.JPG"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="DSCN4553.JPG"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="DSCN4557.JPG"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="DSCN4601.JPG"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="Portada.JPG"   alt="Cele y Maury" loading="lazy"></div>
+      </div>
+      <button class="carrusel__btn carrusel__btn--ant" id="carAnt" aria-label="Foto anterior">
+        <svg viewBox="0 0 16 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="10 2 4 8 10 14"/>
+        </svg>
+      </button>
+      <button class="carrusel__btn carrusel__btn--sig" id="carSig" aria-label="Foto siguiente">
+        <svg viewBox="0 0 16 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 2 12 8 6 14"/>
+        </svg>
+      </button>
+    </div>
+    <div class="carrusel__puntos" id="carPuntos" role="tablist"></div>
+  </div>
+</section>
+
+<!-- Wave: galería �?' colaboración -->
+<div class="wave" style="background: var(--c-bg);">
+  <svg viewBox="0 0 1440 45" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="45">
+    <path d="M0,22 C480,45 960,0 1440,22 L1440,45 L0,45 Z" fill="#EFEDE7"/>
+  </svg>
+</div>
+
+<!-- ========================
+     COLABORACI�"N
+======================== -->
+<section class="colaboracion fade-in">
+  <div class="colab-card">
+    <h2 class="colab-card__titulo">
+      <!--<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4A6360" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <polyline points="2,4 12,13 22,4"/>-->
+      </svg>
+      Tarjeta
+    </h2>
+    <p class="colab-card__nota">
+      Para ayudarnos con la organización de la celebración, la tarjeta tiene un valor de $15000 por persona. Este aporte será recibido con mucho cariño y nos ayudará a hacer realidad este día tan esperado.
+    </p>
+    <div class="colab-datos">
+      <div class="colab-fila">
+        <span class="colab-fila__label">Titular</span>
+        <span class="colab-fila__valor">Mauricio Emanuel Benitez</span>
+      </div>
+      <div class="colab-fila">
+        <span class="colab-fila__label">Banco</span>
+        <span class="colab-fila__valor">Ualá Bank S.A.U.</span>
+      </div>
+      <div class="colab-fila">
+        <span class="colab-fila__label">CBU</span>
+        <span class="colab-fila__valor">3840200500000036432932</span>
+      </div>
+      <div class="colab-fila">
+        <span class="colab-fila__label">Alias</span>
+        <div class="colab-alias-fila">
+          <span class="colab-alias" id="aliasValor">celeymaury.boda</span>
+          <button class="btn-copiar" id="btnCopiarAlias">Copiar</button>
+        </div>
+      </div>
+    </div>
+    <p class="colab-card__gracias">¡Muchas gracias por el cariño!</p>
+  </div>
+</section>
+
+<!-- Transición suave: beige �?' cierre con foto -->
+<div class="wave" style="background: var(--c-bg-2);">
+  <svg viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="50">
+    <path d="M0,0 C720,50 1440,0 1440,0 L1440,50 L0,50 Z" fill="transparent"/>
+    <!-- Esta wave solo redondea la esquina superior del cierre -->
+  </svg>
+</div>
+
+<!-- ========================
+     CIERRE
+======================== -->
+<section class="cierre fade-in">
+  <img class="cierre__bg" src="DSCN4510.JPG" alt="" aria-hidden="true">
+  <div class="cierre__overlay"></div>
+  <div class="cierre__contenido">
+    <h2 class="cierre__titulo">Compartimos este día<br>junto a vos</h2>
+    <p class="cierre__subtitulo">Compartí tus fotos y videos de ese hermoso día</p>
+    <a class="btn btn-white" href="https://photos.app.goo.gl/uBxVjxWycVsdgt3q9" target="_blank" rel="noopener">
+      Subir foto o video
+    </a>
+  </div>
+</section>
+
+<!-- ========================
+     PIE DE PÁGINA
+======================== -->
+<footer class="pie">
+  <p class="pie__nombres">Cele &amp; Maury</p>
+  <p class="pie__fecha">12 · 12 · 2026</p>
+</footer>
+
+<!-- ========================
+     SCRIPTS
+======================== -->
+<script>
+(function () {
+  'use strict';
+
+  /* --- Referencias --- */
+  const modal        = document.getElementById('modalBienvenida');
+  const audio        = document.getElementById('audioFondo');
+  const flotante     = document.getElementById('musicaFlotante');
+  const musicaBtn    = document.getElementById('musicaBtn');
+  const etiqueta     = document.getElementById('musicaEtiqueta');
+  const iconoPlay    = document.getElementById('iconoPlay');
+  const iconoPausa   = document.getElementById('iconoPausa');
+  const portadaBg    = document.getElementById('portadaBg');
+
+  /* ===================================================
+     MODAL BIENVENIDA
+  =================================================== */
+  function cerrarModal(conMusica) {
+    modal.classList.add('oculto');
+    flotante.hidden = false;
+
+    // Ken Burns en la portada
+    setTimeout(() => portadaBg.classList.add('cargada'), 150);
+
+    if (conMusica) {
+      audio.play().catch(() => {
+        // Autoplay bloqueado �?" mostrar hint
+        mostrarEtiqueta('Tocá para escuchar');
+        iconoPlay.style.display  = 'block';
+        iconoPausa.style.display = 'none';
+      });
+    }
+
+    mostrarEtiqueta(conMusica ? 'Reproduciendo' : 'Sin música');
+  }
+
+  document.getElementById('btnConMusica').addEventListener('click',  () => cerrarModal(true));
+  document.getElementById('btnSinMusica').addEventListener('click',  () => cerrarModal(false));
+
+  /* --- Botón de música flotante --- */
+  musicaBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  });
+
+  audio.addEventListener('play',  () => {
+    iconoPlay.style.display  = 'none';
+    iconoPausa.style.display = 'block';
+    mostrarEtiqueta('Reproduciendo');
+  });
+  audio.addEventListener('pause', () => {
+    iconoPlay.style.display  = 'block';
+    iconoPausa.style.display = 'none';
+    mostrarEtiqueta('Pausado');
+  });
+
+  function mostrarEtiqueta(texto) {
+    etiqueta.textContent = texto;
+    flotante.classList.add('mostrar-label');
+    clearTimeout(flotante._timer);
+    flotante._timer = setTimeout(() => flotante.classList.remove('mostrar-label'), 2200);
+  }
+
+  /* ===================================================
+     SCROLL HINT
+  =================================================== */
+  const scrollHint = document.getElementById('scrollHint');
+  function irACountdown() {
+    document.getElementById('countdown').scrollIntoView({ behavior: 'smooth' });
+  }
+  scrollHint.addEventListener('click',   irACountdown);
+  scrollHint.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') irACountdown(); });
+
+  /* ===================================================
+     CUENTA REGRESIVA
+     Target: 12/12/2026 19:00 hora Argentina (UTC-3)
+  =================================================== */
+  function actualizarCuenta() {
+    const ahora   = Date.now();
+    const destino = Date.UTC(2026, 11, 12, 22, 0, 0); // 19:00 ART = 22:00 UTC
+    const diff    = destino - ahora;
+
+    if (diff <= 0) {
+      ['cdDias','cdHoras','cdMins','cdSegs'].forEach(id => {
+        document.getElementById(id).textContent = '00';
+      });
+      return;
+    }
+
+    const dias  = Math.floor(diff / 86400000);
+    const horas = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000) / 60000);
+    const segs  = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById('cdDias').textContent  = String(dias).padStart(2, '0');
+    document.getElementById('cdHoras').textContent = String(horas).padStart(2, '0');
+    document.getElementById('cdMins').textContent  = String(mins).padStart(2, '0');
+    document.getElementById('cdSegs').textContent  = String(segs).padStart(2, '0');
+  }
+  actualizarCuenta();
+  setInterval(actualizarCuenta, 1000);
+
+  /* ===================================================
+     AGENDAR EN CALENDARIO (Google Calendar)
+  =================================================== */
+  document.getElementById('btnCalendario').addEventListener('click', function () {
+    const titulo = encodeURIComponent('Boda de Cele & Maury \uD83D\uDC8D');
+    const inicio = '20261212T220000Z'; // 19:00 ART
+    const fin    = '20261213T060000Z'; // ~03:00 ART del día siguiente
+    const lugar  = encodeURIComponent('Calipso Eventos, Bernardo Grimberg 54, Concordia, Entre Ríos');
+    const url    = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+                 + '&text='     + titulo
+                 + '&dates='    + inicio + '/' + fin
+                 + '&location=' + lugar;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
+
+  /* ===================================================
+     CARRUSEL
+  =================================================== */
+  const pista       = document.getElementById('carruselPista');
+  const slides      = pista.querySelectorAll('.carrusel__slide');
+  const puntosCont  = document.getElementById('carPuntos');
+  let   actual      = 0;
+  let   timerAuto;
+
+  // Construir puntos
+  slides.forEach(function (_, i) {
+    const p = document.createElement('button');
+    p.className  = 'carrusel__punto' + (i === 0 ? ' activo' : '');
+    p.setAttribute('role', 'tab');
+    p.setAttribute('aria-label', 'Foto ' + (i + 1));
+    p.addEventListener('click', function () { irA(i); detenerAuto(); iniciarAuto(); });
+    puntosCont.appendChild(p);
+  });
+
+  function irA(idx) {
+    actual = (idx + slides.length) % slides.length;
+    pista.style.transform = 'translateX(-' + actual * 100 + '%)';
+    puntosCont.querySelectorAll('.carrusel__punto').forEach(function (p, i) {
+      p.classList.toggle('activo', i === actual);
+    });
+  }
+  function iniciarAuto()  { timerAuto = setInterval(function () { irA(actual + 1); }, 4200); }
+  function detenerAuto()  { clearInterval(timerAuto); }
+
+  document.getElementById('carAnt').addEventListener('click', function () { irA(actual - 1); detenerAuto(); iniciarAuto(); });
+  document.getElementById('carSig').addEventListener('click', function () { irA(actual + 1); detenerAuto(); iniciarAuto(); });
+
+  // Soporte táctil
+  var touchOrigen = null;
+  pista.addEventListener('touchstart', function (e) { touchOrigen = e.touches[0].clientX; }, { passive: true });
+  pista.addEventListener('touchend',   function (e) {
+    if (touchOrigen === null) return;
+    var dx = e.changedTouches[0].clientX - touchOrigen;
+    if (Math.abs(dx) > 38) { irA(actual + (dx < 0 ? 1 : -1)); detenerAuto(); iniciarAuto(); }
+    touchOrigen = null;
+  }, { passive: true });
+
+  iniciarAuto();
+
+  /* ===================================================
+     COPIAR ALIAS
+  =================================================== */
+  document.getElementById('btnCopiarAlias').addEventListener('click', function () {
+    var alias = document.getElementById('aliasValor').textContent.trim();
+    var btn   = this;
+
+    function confirmarCopia() {
+      btn.textContent = '¡Copiado!';
+      btn.classList.add('copiado');
+      setTimeout(function () {
+        btn.textContent = 'Copiar';
+        btn.classList.remove('copiado');
+      }, 2200);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(alias).then(confirmarCopia).catch(function () {
+        fallbackCopiar(alias, confirmarCopia);
+      });
+    } else {
+      fallbackCopiar(alias, confirmarCopia);
+    }
+  });
+
+  function fallbackCopiar(texto, callback) {
+    var ta = document.createElement('textarea');
+    ta.value = texto;
+    ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try { document.execCommand('copy'); callback(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  /* ===================================================
+     FADE-IN AL HACER SCROLL (Intersection Observer)
+  =================================================== */
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.10 });
+
+    document.querySelectorAll('.fade-in').forEach(function (el) {
+      obs.observe(el);
+    });
+  } else {
+    // Fallback: mostrar todo directamente
+    document.querySelectorAll('.fade-in').forEach(function (el) {
+      el.classList.add('visible');
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
+
