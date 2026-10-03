@@ -177,7 +177,7 @@
     .portada__bg {
       position: absolute;
       inset: 0;
-      background-image: url('img/Portada.JPG');
+      background-image: url('img/Portada.webp');
       background-size: cover;
       background-position: center 30%;
       transform: scale(1.06);
@@ -693,12 +693,15 @@
       justify-content: space-between;
       gap: 10px;
       flex: 1;
+      min-width: 0;
     }
     .colab-alias {
       font-size: 17px;
       font-weight: 700;
       color: var(--c-green-deep);
       letter-spacing: 0.04em;
+      min-width: 0;
+      word-break: break-word;
     }
     .btn-copiar {
       background: var(--c-bg-2);
@@ -1041,7 +1044,7 @@
 <!-- ========================
      EVENTOS
 ======================== -->
-<section class="eventos fade-in">
+<section class="eventos">
   <div class="seccion__header">
     <h2 class="seccion__eyebrow">Acompañanos en cada paso</h2>
    <!-- <h2 class="seccion__titulo">El gran día</h2>-->
@@ -1137,7 +1140,7 @@
 <!-- ========================
      CONFIRMAR ASISTENCIA
 ======================== -->
-<section class="rsvp fade-in">
+<section class="rsvp">
   <div class="rsvp__inner">
     <span class="rsvp__eyebrow">¿Venís?</span>
     <h2 class="rsvp__titulo">Confirmar Asistencia</h2>
@@ -1179,14 +1182,14 @@
   <div class="galeria__marco">
     <div class="carrusel" id="carrusel">
       <div class="carrusel__pista" id="carruselPista">
-        <div class="carrusel__slide"><img src="img/DSCN4491.JPG"  alt="Cele y Maury" loading="lazy"></div>
-        <div class="carrusel__slide"><img src="img/DSCN4510.JPG"  alt="Cele y Maury" loading="lazy"></div>
-        <div class="carrusel__slide"><img src="img/DSCN4521.JPG"  alt="Cele y Maury" loading="lazy"></div>
-        <div class="carrusel__slide"><img src="img/DSCN4536.JPG"  alt="Cele y Maury" loading="lazy"></div>
-        <div class="carrusel__slide"><img src="img/DSCN4553.JPG"  alt="Cele y Maury" loading="lazy"></div>
-        <div class="carrusel__slide"><img src="img/DSCN4557.JPG"  alt="Cele y Maury" loading="lazy"></div>
-        <div class="carrusel__slide"><img src="img/DSCN4601.JPG"  alt="Cele y Maury" loading="lazy"></div>
-        <div class="carrusel__slide"><img src="img/Portada.JPG"   alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="img/DSCN4491.webp"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="img/DSCN4510.webp"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="img/DSCN4521.webp"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="img/DSCN4536.webp"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="img/DSCN4553.webp"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="img/DSCN4557.webp"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="img/DSCN4601.webp"  alt="Cele y Maury" loading="lazy"></div>
+        <div class="carrusel__slide"><img src="img/Portada.webp"   alt="Cele y Maury" loading="lazy"></div>
       </div>
       <button class="carrusel__btn carrusel__btn--ant" id="carAnt" aria-label="Foto anterior">
         <svg viewBox="0 0 16 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1213,7 +1216,7 @@
 <!-- ========================
      COLABORACI�"N
 ======================== -->
-<section class="colaboracion fade-in">
+<section class="colaboracion">
   <div class="colab-card">
     <h2 class="colab-card__titulo">
       <!--<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4A6360" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
@@ -1262,7 +1265,7 @@
      CIERRE
 ======================== -->
 <section class="cierre fade-in">
-  <img class="cierre__bg" src="img/DSCN4510.JPG" alt="" aria-hidden="true">
+  <img class="cierre__bg" src="img/DSCN4510.webp" alt="" aria-hidden="true">
   <div class="cierre__overlay"></div>
   <div class="cierre__contenido">
     <h2 class="cierre__titulo">Compartimos este día<br>junto a vos</h2>
